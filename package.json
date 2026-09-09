@@ -1,0 +1,48 @@
+{
+  "name": "airbnb-scraper",
+  "version": "1.0.0",
+  "description": "Scrape Airbnb search results as clean JSON via the ScrapeUnblocker getPageSource parsed_data API - CLI + Node library.",
+  "type": "module",
+  "license": "MIT",
+  "author": "ScrapeUnblocker",
+  "homepage": "https://scrapeunblocker.com/?utm_source=github&utm_medium=integration&utm_campaign=example-repos",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ScrapeUnblocker/airbnb-scraper.git"
+  },
+  "keywords": [
+    "airbnb",
+    "airbnb-scraper",
+    "web-scraping",
+    "scraper",
+    "parsed-data",
+    "scrapeunblocker",
+    "travel",
+    "vacation-rentals",
+    "short-term-rentals"
+  ],
+  "engines": {
+    "node": ">=18"
+  },
+  "bin": {
+    "airbnb-scraper": "bin/cli.js"
+  },
+  "main": "src/index.js",
+  "exports": "./src/index.js",
+  "files": [
+    "src",
+    "bin"
+  ],
+  "scripts": {
+    "start": "node bin/cli.js",
+    "test": "node --test",
+    "lint": "eslint .",
+    "format": "eslint . --fix"
+  },
+  "dependencies": {
+    "scrapeunblocker": "^0.2.1"
+  },
+  "devDependencies": {
+    "eslint": "^9.9.0"
+  }
+}

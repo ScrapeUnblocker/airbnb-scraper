@@ -1,0 +1,21 @@
+# dependencies
+node_modules/
+
+# secrets & local env
+.env
+.env.local
+
+# output / scratch
+*.csv
+*.json.out
+out/
+tmp/
+
+# logs
+npm-debug.log*
+*.log
+
+# editor / OS
+.DS_Store
+.idea/
+.vscode/
