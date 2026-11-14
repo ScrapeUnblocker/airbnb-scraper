@@ -31,7 +31,7 @@ Environment:
 
 Examples:
   airbnb-scraper "San Francisco, CA" --pages 2
-  airbnb-scraper "Paris" --checkin 2026-10-01 --checkout 2026-10-05 --adults 2
+  airbnb-scraper "Paris" --checkin 2027-05-01 --checkout 2027-05-05 --adults 2
   airbnb-scraper "Austin, TX" --format csv --out austin.csv
   airbnb-scraper --url "https://www.airbnb.com/s/homes?query=Rome" --pretty
 

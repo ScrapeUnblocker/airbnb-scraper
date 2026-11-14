@@ -3,19 +3,20 @@
 //
 // The getPageSource parsed_data API returns a `search_list` page as
 // `{ items: [...], total, next_page }`. Airbnb's AI-parsed items come back in
-// two slightly different field namings depending on the search URL form, and
-// this shaper reads both:
+// slightly different field namings depending on the search URL form (and the
+// parser has renamed some fields over time), and this shaper reads all of them:
 //
 //   - Path form  (/s/<location>/homes): total_price / original_price,
 //     cover_photo_url, subtitle (the listing name), avg_rating_a11y.
 //   - Query form (/s/homes?query=...):  price (no original_price),
-//     photo_url,  listing_name,  subtitle (a tagline), avg_rating_label.
+//     image, name, subtitle (a tagline), rating, rating_label. Older
+//     responses used photo_url, listing_name, avg_rating, avg_rating_label.
 //
 // A few fields always need tidying:
 //   - prices arrive as `{ value, currency }` objects (sometimes null, with the
 //     value mirrored into `price_accessibility_label`).
-//   - `avg_rating` is a string like "4.9 (186)" or "New" - split into a numeric
-//     rating and a review count.
+//   - `avg_rating` / `rating` is a string like "4.9 (186)" or "New" - split
+//     into a numeric rating and a review count.
 //   - `listing_id` is a base64 GID (e.g. "DemandStayListing:12171671") - decode
 //     it to the numeric id and build a clean room URL.
 
@@ -129,16 +130,18 @@ export function shapeItem(item) {
   const price = toNumber(priceObj);
   const originalPrice = toNumber(item.original_price);
 
-  const { rating, reviews } = parseRating(item.avg_rating);
+  const { rating, reviews } = parseRating(item.avg_rating ?? item.rating);
 
   return {
     title: typeof item.title === "string" ? item.title : null,
     name:
       typeof item.listing_name === "string"
         ? item.listing_name
-        : typeof item.subtitle === "string"
-          ? item.subtitle
-          : null,
+        : typeof item.name === "string"
+          ? item.name
+          : typeof item.subtitle === "string"
+            ? item.subtitle
+            : null,
     listingId,
     rating,
     reviews,
@@ -160,7 +163,9 @@ export function shapeItem(item) {
         ? item.cover_photo_url
         : typeof item.photo_url === "string"
           ? item.photo_url
-          : null,
+          : typeof item.image === "string"
+            ? item.image
+            : null,
   };
 }
 

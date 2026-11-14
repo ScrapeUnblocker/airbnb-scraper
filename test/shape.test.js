@@ -121,6 +121,36 @@ test("shapeItem normalises the query-form shape (listing_name + photo_url)", () 
   assert.equal(rec.reviews, 1549);
 });
 
+// Current query-form item: the parser now emits name / rating / image in place
+// of listing_name / avg_rating / photo_url, and no badge.
+const CURRENT_QUERY_ITEM = {
+  title: "Room in Nob Hill",
+  subtitle: "Modern Russian Hill room with a workspace",
+  name: "Russian Hill Escape",
+  property_id: null,
+  rating: "4.97 (78)",
+  rating_label: "4.97 out of 5 average rating, 78 reviews",
+  price: { value: 122, currency: "USD" },
+  neighborhood: "Nob Hill",
+  checkin: "2026-11-14",
+  checkout: "2026-11-15",
+  image: "https://a0.muscache.com/im/pictures/hosting/z.jpeg",
+  listing_id: "RGVtYW5kU3RheUxpc3Rpbmc6MTIxNzE2NzE=",
+};
+
+test("shapeItem normalises the current query-form shape (name + rating + image)", () => {
+  const rec = shapeItem(CURRENT_QUERY_ITEM);
+  assert.equal(rec.title, "Room in Nob Hill");
+  assert.equal(rec.name, "Russian Hill Escape");
+  assert.equal(rec.rating, 4.97);
+  assert.equal(rec.reviews, 78);
+  assert.equal(rec.price, 122);
+  assert.equal(rec.currency, "USD");
+  assert.equal(rec.badge, null);
+  assert.equal(rec.image, "https://a0.muscache.com/im/pictures/hosting/z.jpeg");
+  assert.equal(rec.url, "https://www.airbnb.com/rooms/12171671");
+});
+
 test("shapeItem falls back to price_accessibility_label when total_price is null", () => {
   const rec = shapeItem({
     ...PATH_ITEM,

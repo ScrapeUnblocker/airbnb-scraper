@@ -1,7 +1,7 @@
 # Airbnb Scraper
 
 [![CI](https://github.com/ScrapeUnblocker/airbnb-scraper/actions/workflows/ci.yml/badge.svg)](https://github.com/ScrapeUnblocker/airbnb-scraper/actions/workflows/ci.yml)
-[![Node.js](https://img.shields.io/badge/node-%3E%3D18-brightgreen)](https://nodejs.org)
+[![Node.js](https://img.shields.io/badge/node-%3E%3D22-brightgreen)](https://nodejs.org)
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 
 Scrape [Airbnb](https://www.airbnb.com) search results as clean, structured JSON — listing title, name, rating, review count, nightly/total price, currency, discount, badge (Superhost / Guest favorite), stay dates, room URL and image — with multi-page collection and CSV export.
@@ -29,7 +29,7 @@ cd airbnb-scraper
 npm install
 ```
 
-Requires **Node.js 18+**. Then set your API key ([get one here](https://scrapeunblocker.com/?utm_source=github&utm_medium=integration&utm_campaign=example-repos)):
+Requires **Node.js 22+**. Then set your API key ([get one here](https://scrapeunblocker.com/?utm_source=github&utm_medium=integration&utm_campaign=example-repos)):
 
 ```bash
 cp .env.example .env
@@ -49,7 +49,7 @@ node bin/cli.js "San Francisco, CA"
 node bin/cli.js "San Francisco, CA" --pages 2 --pretty
 
 # Add dates and guest count
-node bin/cli.js "Paris" --checkin 2026-10-01 --checkout 2026-10-05 --adults 2
+node bin/cli.js "Paris" --checkin 2027-05-01 --checkout 2027-05-05 --adults 2
 
 # Export to CSV
 node bin/cli.js "Austin, TX" --format csv --out austin.csv
@@ -88,8 +88,8 @@ console.log(stays[0]);
 
 // With dates and guests
 const dated = await scraper.search("Paris", {
-  checkin: "2026-10-01",
-  checkout: "2026-10-05",
+  checkin: "2027-05-01",
+  checkout: "2027-05-05",
   adults: 2,
 });
 
@@ -126,7 +126,8 @@ const fromUrl = await scraper.collect(
 > `price` is the stay price Airbnb shows for the dates in the search (a total for
 > the selected range, or an estimate when no dates are given). `originalPrice`
 > and `discountPct` are present only when Airbnb shows a struck-through price.
-> `rating`/`reviews` are `null` for brand-new listings.
+> `rating`/`reviews` are `null` for brand-new listings. `badge` is `null` when the
+> parsed card carries none, which is currently the case for `?query=` searches.
 
 ## How it works
 

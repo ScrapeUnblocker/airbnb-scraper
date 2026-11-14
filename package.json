@@ -22,7 +22,7 @@
     "short-term-rentals"
   ],
   "engines": {
-    "node": ">=18"
+    "node": ">=22"
   },
   "bin": {
     "airbnb-scraper": "bin/cli.js"
@@ -40,7 +40,7 @@
     "format": "eslint . --fix"
   },
   "dependencies": {
-    "scrapeunblocker": "^0.2.1"
+    "scrapeunblocker": "^0.19.0"
   },
   "devDependencies": {
     "eslint": "^9.9.0"
